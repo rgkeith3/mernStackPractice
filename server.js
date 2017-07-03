@@ -4,6 +4,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var Comment = require('./model/comments');
 
 //and create our instances
 var app = express();
@@ -11,6 +12,11 @@ var router = express.Router();
 
 //set our port to either a predetermined port number if you have set it up or 3001
 var port = process.env.API_PORT || 3001;
+
+//db config
+mongoose.connect('mongodb://greyKeith:Dire0812@ds147902.mlab.com:47902/mern-comment-box', {
+  useMongoClient: true,
+});
 
 //now config the API to use bodyParser and look for JSON data in req body
 app.use(bodyParser.urlencoded({extended: true}));
@@ -36,7 +42,7 @@ router.get('/', function(req, res) {
 //use our router config when we call /api
 app.use('/api', router);
 
-//starts teh server and listens for requests
+//starts the server and listens for requests
 app.listen(port, function() {
   console.log(`api running on port ${port}`);
 });
