@@ -50,21 +50,21 @@ const style = {
   fontSize:'1rem',
   backgroundColor:'#A3CDFD',
   borderRadius:'3px',
-  color:’#fff’,
-  textTransform:’uppercase’,
+  color:'#fff',
+  textTransform:'uppercase',
   letterSpacing:'.055rem',
-  border:’none’
+  border:'none'
   },
   updateLink: {
-  textDecoration:’none’,
+  textDecoration:'none',
   paddingRight:'15px',
   fontSize:'.7rem'
   },
   deleteLink: {
-  textDecoration:’none’,
+  textDecoration:'none',
   paddingRight:'15px',
   fontSize:'.7rem',
-  color:’red’
+  color:'red'
   }
 }
 module.exports = style;
