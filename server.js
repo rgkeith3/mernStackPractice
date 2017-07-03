@@ -14,7 +14,7 @@ var router = express.Router();
 var port = process.env.API_PORT || 3001;
 
 //db config
-mongoose.connect('mongodb://greyKeith:Dire0812@ds147902.mlab.com:47902/mern-comment-box', {
+mongoose.connect('mongodb://mcb-test:mcbtest@ds147902.mlab.com:47902/mern-comment-box', {
   useMongoClient: true,
 });
 
@@ -27,7 +27,7 @@ app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type,Acces-Control-Request-Method, Access-Control-Request-Headers')
+  res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type,Access-Control-Request-Method, Access-Control-Request-Headers')
 
   //and remove cacheing so we get the most recent comments
   res.setHeader('Cache-Control', 'no-cache');
@@ -38,6 +38,32 @@ app.use(function(req, res, next) {
 router.get('/', function(req, res) {
   res.json({message: 'API Initialized!'});
 });
+
+//adding the /comments route to our /api router
+router.route('/comments')
+  //retrieve all comments form the db
+  .get(function(req, res) {
+    //looks at our Comment Schema
+    Comment.find(function(err, comments) {
+      if (err)
+        res.send(err);
+      //responds with a json object of our db comments
+      res.json(comments)
+    });
+  })
+  //post new comment to db
+  .post(function(req, res) {
+    var comment = new Comment();
+    //bodyParser lets us use the req.bodyParser
+    comment.author = req.body.author;
+    comment.text = req.body.text;
+
+    comment.save(function(err) {
+      if (err)
+        res.send(err);
+      res.json({message: 'Comment successfully added!'});
+    });
+  });
 
 //use our router config when we call /api
 app.use('/api', router);
